@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Bootstrap demo</title>
+    <title>{{ TITULO_PAGINA }}</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
     <link rel="stylesheet" href="css/main.css">
   </head>
@@ -20,8 +20,8 @@
     <section class=" container p-4">
         <div class="row justify-content-center">
             <div class="col align-self-center">
-                <h1 class="text text-center">INFORME VENTA DIRECTA</h1>
-                <h2 class="text text-center">Hotel Don Juan</h2>
+                <h1 class="text text-center">{{ title_checkin }}</h1>
+                <h2 class="text text-center">{{ subtitle_checkin }}</h2>
             </div>
         </div>
         <div class="row">
@@ -30,67 +30,25 @@
                 <table class="table">
                     <thead>
                       <tr>
-                        <th scope="col" class="text">Datos por fecha de alta</th>
-                        <th scope="col" class="text">NOV-19</th>
-                        <th scope="col" class="text">DEC-20</th>
-                        <th scope="col" class="text">DIF %</th>
+                        <tr>
+                            {% for col_name in table_reserves_checkin_headers %}
+                            <th scope="col" class="text">
+                              <!--[if (gte mso 9)|(IE)]><span style="font-family:Arial"><![endif]-->
+                              {{ col_name }}
+                              <!--[if (gte mso 9)|(IE)]></span><![endif]-->
+                            </th>
+                            {% endfor %}
                       </tr>
                     </thead>
                     <tbody>
+                        {% for col_value in table_reserves_checkin_data %}
                       <tr>
-                        <td>Producción</td>
-                        <td>000.000€</td>
-                        <td>▲ 0000€</td>
-                        <td>▲ 100%</td>
+                        <td>{{ col_value['c1'] }}</td>
+                        <td>{{ col_value['c2'] }}</td>
+                        <td>{{ col_value['c3'] }}</td>
+                        <td>{{ col_value['c4'] }}</td>
                       </tr>
-                      <tr>
-                        <td>Precio medio por noche</td>
-                        <td>000.000€</td>
-                        <td>▲ 0000€</td>
-                        <td>▲ 0%</td>
-                      </tr>
-                      <tr>
-                        <td>Nº Reservas *</td>
-                        <td>000.000€</td>
-                        <td>▲ 0000€</td>
-                        <td>▲ 0%</td>
-                      </tr>
-                      <tr>
-                        <td>Nº Reservas anuladas a futuro</td>
-                        <td>000.000€</td>
-                        <td>▲ 0000€</td>
-                        <td>▲ 0%</td>
-                      </tr>
-                      <tr>
-                        <td>Antelación media</td>
-                        <td>000.000€</td>
-                        <td>▲ 0000€</td>
-                        <td>▲ 0%</td>
-                      </tr>
-                      <tr>
-                        <td>Nº Consultas</td>
-                        <td>000.000€</td>
-                        <td>▲ 0000€</td>
-                        <td>▲ 0%</td>
-                      </tr>
-                      <tr>
-                        <td>Ratio de disponibilidad *</td>
-                        <td>000.000€</td>
-                        <td>▲ 0000€</td>
-                        <td>▲ 0%</td>
-                      </tr>
-                      <tr>
-                        <td>Ratio de conversión *</td>
-                        <td>000.000€</td>
-                        <td>▲ 0000€</td>
-                        <td>▲ 0%</td>
-                      </tr>
-                      <tr>
-                        <td>Ratio de conversión vs consultas *</td>
-                        <td>000.000€</td>
-                        <td>▲ 0000€</td>
-                        <td>▲ 0%</td>
-                      </tr>
+                      {% endfor %}
                     </tbody>
                 </table> 
             </div>
@@ -102,11 +60,11 @@
             <div class="col">
                 <div class="card shadowdata border-0">
                     <div class="card-body">
-                        <h3 class="text">Desglose por canales</h3>
+                        <h3 class="text">{{ pie_chart_canals_checkin_title }}</h3>
                         <hr>
                         <div class="row">
                             <div class="col">
-                                Acá va el gráfico
+                                <img src="data:image/png;base64,{{ pie_chart_canals_checkin }}" height="116">
                             </div>
                         </div>
                         <div class="row">
@@ -135,32 +93,71 @@
             <div class="col">
                 <div class="card shadowdata border-0">
                     <div class="card-body">
-                        <h3 class="text">Metabuscadores</h3>
+                        <h3 class="text">{{ h_lines_metabuscadors_title_checkin }}</h3>
                         <hr>
                         <div class="row">
                             <div class="col">
-                                Acá va el gráfico
+                                <table align="center" border="0" cellspacing="0" cellpadding="0" bgcolor=""
+                                style="width:100%">
+                                {% for element in h_lines_metabuscadors_data_checkin %}
+                                <tr>
+                                  <td style="vertical-align:middle;padding:0 10px;">
+    
+                                    <table align="center" border="0" cellspacing="0" cellpadding="0" bgcolor=""
+                                      style="width:100%;border-radius:5px;overflow:hidden;">
+                                      <tr>
+                                        <td
+                                          style="background-color:{{ element['color'] }};font-size:5px;width:{{ element['bar_width'] }}%;">
+                                          &nbsp;</td>
+    
+                                        <!-- resto si hay -->
+                                        <td
+                                          style="background-color:#E4E4E4;font-size:5px;width:{{ 100 -element['bar_width'] }}%;">
+                                          &nbsp;</td>
+                                      </tr>
+                                    </table>
+    
+                                  </td>
+                                  <td
+                                    style="width: 35px;padding:10px 5px;font:bold 13px 'Roboto',sans-serif;color:#15284C;">
+                                    <!--[if (gte mso 9)|(IE)]><span style="font-family:Arial"><![endif]-->
+                                    {{ element['value_pct'] }}%
+                                    <!--[if (gte mso 9)|(IE)]></span><![endif]-->
+                                  </td>
+                                </tr>
+    
+                                {% endfor %}
+                              </table>
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col">
-                                <div></div>
-                                <p>Google Hpa</p>
-                            </div>
-                            <div class="col">
-                                <div></div>
-                                <p>Metabuscadores</p>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col">
-                                <div class="circle"></div>
-                                <p>Trivago</p>
-                            </div>
-                            <div class="col">
-                                <div></div>
-                                <p>Resto</p>
-                            </div>
+                            <table align="center" border="0" cellspacing="0" cellpadding="0" bgcolor=""
+                            style="width:100%">
+
+                            {% for element in h_lines_metabuscadors_data_checkin %}
+                            <tr>
+                              <td style="width:25%">
+                                <table align="left" border="0" cellspacing="0" cellpadding="0" bgcolor=""
+                                  style="width:100%">
+                                  <tr>
+                                    <td style="width:12px">
+                                      <div
+                                        style="width:12px; height: 12px; background-color: {{ element['color'] }}; border-radius: 50%; display: inline-block;">
+                                      </div>
+                                    </td>
+                                    <td
+                                      style="text-align:left;padding:2px 4px 2px 2px;font:bold 11px 'Roboto',sans-serif;color:#2C2C2C;">
+                                      <!--[if (gte mso 9)|(IE)]><span style="font-family:Arial"><![endif]-->
+                                      {{ element['label'] }}
+                                      <!--[if (gte mso 9)|(IE)]></span><![endif]-->
+                                    </td>
+                                  </tr>
+                                </table>
+                              </td>
+                            </tr>
+                            {% endfor %}
+
+                          </table>
                         </div>
                     </div>
                 </div>
